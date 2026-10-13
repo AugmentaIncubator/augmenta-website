@@ -1,0 +1,578 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>augmenta</title>
+<meta name="description" content="human-machine interface incubator">
+<meta name="theme-color" content="#040508">
+<meta property="og:title" content="augmenta">
+<meta property="og:description" content="human-machine interface incubator">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='.4' cy='.35' r='.8'%3E%3Cstop offset='0' stop-color='%23e9efff'/%3E%3Cstop offset='.55' stop-color='%236f9cff'/%3E%3Cstop offset='1' stop-color='%23311a8c'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%23040508'/%3E%3Ccircle cx='32' cy='32' r='14' fill='url(%23g)'/%3E%3C/svg%3E">
+<style>
+  @font-face {
+    font-family: "Aug Display";
+    src: url(data:font/woff;base64,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) format("woff");
+    font-weight: 300; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: "Aug Text";
+    src: url(data:font/woff;base64,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) format("woff");
+    font-weight: 500; font-style: normal; font-display: block;
+  }
+
+  :root {
+    --bg: #040508;
+    --ice: 158, 197, 255;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%; background: var(--bg); color: #eceff4;
+    overflow: hidden; overscroll-behavior: none; touch-action: none;
+    -webkit-text-size-adjust: 100%;
+  }
+  body { position: fixed; inset: 0; }
+  ::selection { background: rgba(var(--ice), .32); color: #fff; -webkit-text-fill-color: #fff; }
+
+  #gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  /* graceful fallback: no WebGL2 / context lost */
+  html.no-gl #gl { display: none; }
+  html.no-gl body {
+    background:
+      radial-gradient(60% 46% at 50% 56%, rgba(70, 110, 210, .20), transparent 72%),
+      radial-gradient(38% 34% at 72% 30%, rgba(124, 72, 232, .14), transparent 70%),
+      var(--bg);
+  }
+  html.no-gl body::before {
+    content: ""; position: fixed; inset: -12%;
+    background: repeating-linear-gradient(104deg, rgba(190, 210, 240, .075) 0 1px, transparent 1px 9px);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 52%, #000 6%, transparent 68%);
+            mask-image: radial-gradient(ellipse at 50% 52%, #000 6%, transparent 68%);
+    animation: drift 46s ease-in-out infinite alternate;
+  }
+  html.no-gl body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .5; mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  }
+  @keyframes drift { to { transform: translate3d(3%, -2%, 0) rotate(1.2deg); } }
+
+  main {
+    position: fixed; inset: 0; z-index: 2;
+    display: grid; place-items: center;
+    padding: env(safe-area-inset-top) max(18px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(18px, env(safe-area-inset-left));
+    pointer-events: none;
+  }
+  .stage { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+  h1 {
+    position: relative; margin: 0; width: max-content; max-width: none;
+    font-family: "Aug Display", "Inter Display", "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    font-size: min(19vw, 30vh);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    white-space: nowrap;
+    pointer-events: auto;
+    cursor: default;
+    --sx: -40%; --sa: .14; --sw: 90px;
+    --hx: 50%; --hy: 50%; --ha: 0; --hr: 140px;
+  }
+  @media (min-width: 560px) { h1 { font-size: min(15.5vw, 30vh); } }
+  @media (min-width: 900px) { h1 { font-size: min(13.5vw, 30vh); } }
+
+  .ch {
+    position: relative; display: inline-block;
+    padding-bottom: .08em;
+    color: transparent; -webkit-text-fill-color: transparent;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text; background-clip: text;
+    background-image:
+      /* moving metallic streak with darker reflective flanks */
+      linear-gradient(105deg,
+        rgba(70, 86, 116, 0) calc(var(--sx) - var(--sw)),
+        rgba(70, 86, 116, .34) calc(var(--sx) - var(--sw) * .55),
+        rgba(255, 255, 255, var(--sa)) var(--sx),
+        rgba(70, 86, 116, .34) calc(var(--sx) + var(--sw) * .55),
+        rgba(70, 86, 116, 0) calc(var(--sx) + var(--sw))),
+      /* pointer-local icy sheen */
+      radial-gradient(circle at var(--hx) var(--hy),
+        rgba(196, 224, 255, var(--ha)) 0,
+        rgba(196, 224, 255, 0) var(--hr)),
+      /* brushed off-white silver */
+      linear-gradient(180deg, #fbfcfe 0%, #e9edf3 36%, #b3bdcd 63%, #dfe5ee 100%);
+    background-size: var(--W, 100%) var(--H, 100%), var(--W, 100%) var(--H, 100%), 100% 100%;
+    background-position: calc(var(--ox, 0px) * -1) calc(var(--oy, 0px) * -1), calc(var(--ox, 0px) * -1) calc(var(--oy, 0px) * -1), 0 0;
+    -webkit-text-stroke: calc(var(--e, 0) * 1.3px) rgba(176, 212, 255, calc(var(--e, 0) * .95));
+    will-change: transform;
+    animation: rise 1.7s cubic-bezier(.16, 1, .3, 1) calc(.18s + var(--i, 0) * .07s) backwards;
+  }
+  .bl { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+
+  #sub {
+    margin: clamp(.9rem, 3.6vh, 2.4rem) 0 0;
+    padding: .7em 1.2em;
+    font-family: "Aug Text", "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 500;
+    font-size: clamp(.74rem, .66rem + .5vw, 1.12rem);
+    line-height: 1.7;
+    letter-spacing: .24em;
+    text-indent: .24em;
+    color: rgba(214, 223, 238, .82);
+    text-wrap: balance;
+    pointer-events: auto;
+    cursor: default;
+    transition: letter-spacing 1.1s cubic-bezier(.16, 1, .3, 1), color .7s ease, text-shadow .9s ease;
+    animation: fadeUp 1.7s cubic-bezier(.16, 1, .3, 1) 1s backwards;
+  }
+  #sub span { white-space: nowrap; }
+  #sub.hot {
+    letter-spacing: .31em;
+    color: #f5f8fd;
+    text-shadow: 0 0 22px rgba(var(--ice), .38);
+  }
+  @media (min-width: 700px) { #sub { letter-spacing: .34em; text-indent: .34em; } #sub.hot { letter-spacing: .42em; } }
+
+  @keyframes rise {
+    from { opacity: 0; filter: blur(18px); translate: 0 .16em; }
+    to   { opacity: 1; filter: blur(0);    translate: 0 0; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; filter: blur(8px); translate: 0 .7em; }
+    to   { opacity: 1; filter: blur(0);   translate: 0 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ch, #sub { animation: none !important; }
+    #sub { transition: color .2s ease; }
+    html.no-gl body::before { animation: none; }
+  }
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<main>
+  <div class="stage">
+    <h1 id="title">augmenta</h1>
+    <p id="sub"><span>human-machine</span> <span>interface incubator</span></p>
+  </div>
+</main>
+
+<script>
+(() => {
+'use strict';
+
+/* ───────────────────────── shaders ───────────────────────── */
+const VS = `#version 300 es
+void main(){
+  vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2));
+  gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0);
+}`;
+
+const FS = `#version 300 es
+precision highp float;
+uniform vec2  uRes;
+uniform float uTime;
+uniform vec2  uPtr;      // gravity centre (spring-smoothed), aspect-normalised units
+uniform vec2  uVel;      // its velocity
+uniform float uInf;      // gravitational influence 0..1
+uniform vec4  uRip[4];   // x, y, start time, strength
+uniform float uReveal;
+uniform vec2  uPar;
+out vec4 fragColor;
+
+float h21(vec2 p){
+  vec3 p3 = fract(vec3(p.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.x + p3.y) * p3.z);
+}
+float vnoise(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  f = f*f*f*(f*(f*6.0-15.0)+10.0);
+  float a = h21(i), b = h21(i+vec2(1,0)), c = h21(i+vec2(0,1)), d = h21(i+vec2(1,1));
+  return mix(mix(a,b,f.x), mix(c,d,f.x), f.y);
+}
+const mat2 R = mat2(1.6, 1.2, -1.2, 1.6);
+float fbm4(vec2 p){
+  float s = 0.0, a = 0.5;
+  for(int i=0;i<4;i++){ s += a*vnoise(p); p = R*p; a *= .5; }
+  return s * 1.07;
+}
+float fbm2(vec2 p){
+  return (0.62*vnoise(p) + 0.38*vnoise(R*p)) ;
+}
+
+void main(){
+  vec2  frag = gl_FragCoord.xy;
+  float m  = min(uRes.x, uRes.y);
+  vec2  p0 = (frag - 0.5*uRes) / m;
+  float t  = uTime;
+
+  /* ── material deformation: parallax, gravity well, inertia drag, ripples ── */
+  vec2  p  = p0 + uPar * 0.04;
+  vec2  d  = p0 - uPtr;
+  float r2 = dot(d, d);
+  float well = exp(-r2 / 0.055) * uInf;
+  float wide = exp(-r2 / 0.26)  * uInf;
+  vec2  q  = p + d * well * 0.95 - uVel * wide * 0.05;
+
+  vec2  rv = vec2(0.0);
+  float ring = 0.0;
+  for(int i=0;i<4;i++){
+    vec4  Rp  = uRip[i];
+    float age = t - Rp.z;
+    if(Rp.w > 0.0 && age > 0.0){
+      vec2  dd   = p0 - Rp.xy;
+      float dist = length(dd);
+      float x    = (dist - age*0.55) / 0.07;
+      float w    = exp(-x*x) * exp(-age*0.8) * Rp.w;
+      rv   += dd / (dist + 1e-4) * w * 0.035;
+      ring += w;
+    }
+  }
+  q += rv;
+
+  /* ── slow organic flow ── */
+  float tt = t * 0.035;
+  vec2  fq = q * 1.1;
+  vec2  w1 = vec2(fbm4(fq + vec2(0.0, tt)), fbm4(fq + vec2(5.2, 1.3 - tt)));
+  vec2  qq = q + (w1 - 0.5) * 1.1;
+  float mem = fbm4(qq + vec2(tt * 1.6, 3.1));            // membrane height 0..1
+
+  /* ── strands: iso-lines of a warped scalar field ── */
+  float ang = 0.36 + 0.22 * sin(t * 0.021);
+  vec2  dir = vec2(cos(ang), sin(ang));
+  float F   = 74.0 * dot(qq, dir) + 17.0 * mem + 5.0 * fbm2(qq * 2.3 - vec2(0.0, t * 0.02));
+
+  float fw    = fwidth(F);
+  float focus = smoothstep(0.22, 0.74, mem);              // high = near = crisp
+  float blur  = (1.0 - focus) * 0.11 + (1.0 - uReveal) * 0.45;
+  float th    = 0.12 + 0.075 * focus;
+  float u     = abs(fract(F + 0.5) - 0.5);
+  float aa    = fw * 0.9 + blur;
+  float body  = 1.0 - smoothstep(th - aa, th + aa, u);
+  body = mix(body, th * 2.0, smoothstep(0.3, 0.6, fw));
+
+  /* ── lighting ── */
+  float s   = sin(6.28318 * F);
+  vec2  gF  = vec2(dFdx(F), dFdy(F));
+  vec2  g   = gF / (length(gF) + 1e-5);
+  vec2  tilt = vec2(dFdx(mem), dFdy(mem)) * 220.0;
+  vec3  N   = normalize(vec3(g * s * 0.9 * (1.0 - clamp(blur * 3.0, 0.0, 0.9)) + tilt, 1.0));
+  vec3  V   = vec3(0.0, 0.0, 1.0);
+
+  vec3  L1  = normalize(vec3(-0.5 + 0.15*sin(t*0.1), 0.55, 0.65));
+  float d1  = max(dot(N, L1), 0.0);
+  float s1  = pow(max(dot(N, normalize(L1 + V)), 0.0), 36.0);
+
+  vec3  PL  = vec3(uPtr - p0, 0.17);
+  float pd  = length(PL); PL /= pd;
+  float att = 1.0 / (1.0 + pd*pd*8.0);
+  float lp  = 0.35 + 0.65 * uInf;
+  float d2  = max(dot(N, PL), 0.0) * att * lp;
+  float s2  = pow(max(dot(N, normalize(PL + V)), 0.0), 28.0) * att * lp;
+
+  vec3  L3  = normalize(vec3(0.65, -0.5, 0.5));
+  float s3  = pow(max(dot(N, normalize(L3 + V)), 0.0), 22.0);
+
+  /* ── palette: silver, icy blue, occasional electric violet ── */
+  vec3 silver = vec3(0.80, 0.85, 0.93);
+  vec3 ice    = vec3(0.38, 0.65, 1.00);
+  vec3 violet = vec3(0.58, 0.30, 1.00);
+  float tint  = fbm2(qq * 0.7 + vec2(2.0, 7.0) + t * 0.01);
+  vec3 base   = mix(silver, ice, smoothstep(0.36, 0.66, tint));
+  float vio   = smoothstep(0.62, 0.80, fbm2(qq * 0.55 + vec2(11.3, 4.1) - t * 0.015));
+
+  vec3 col = vec3(0.005, 0.008, 0.018);
+  col += vec3(0.020, 0.032, 0.070) * (0.35 + mem) * (1.0 - body);            // faint haze between strands
+
+  float depthGain = 0.30 + 0.95 * mem;
+  vec3  lit = base * (0.10 + 0.50 * d1 + 1.05 * d2) + vec3(0.95, 0.98, 1.0) * (0.85 * s1 + 1.3 * s2);
+  col += body * lit * depthGain;
+  col += body * violet * vio * (0.14 + 0.55 * s3 + 0.55 * d2 + 0.25 * well);
+  col += body * mix(ice, vec3(0.8, 0.9, 1.0), 0.4) * well * 0.28;           // the well gathers light
+  col += body * vec3(0.55, 0.76, 1.0) * ring * 0.95 + ice * ring * 0.035;     // ripple lights the strands
+
+  /* ── composition: calm behind the type, vignette, reveal ── */
+  float e    = length(p0 / vec2(0.75, 0.2));
+  float tdim = mix(0.50, 1.0, smoothstep(0.7, 1.7, e));
+  float vig  = smoothstep(1.35, 0.22, length(p0 * vec2(0.85, 1.0)));
+  col *= tdim * vig;
+  col *= smoothstep(0.0, 1.0, uReveal * 1.8 - length(p0) * 0.9);
+
+  col = 1.0 - exp(-col * 1.5);
+  float gr = h21(frag + fract(t) * 173.0) - 0.5;
+  col += gr * 0.024 * (0.35 + dot(col, vec3(0.33)));
+  fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+}`;
+
+/* ───────────────────────── setup ───────────────────────── */
+const doc    = document.documentElement;
+const clamp  = (v, a, b) => Math.min(b, Math.max(a, v));
+const damp   = (a, b, rate, dt) => a + (b - a) * (1 - Math.exp(-rate * dt));
+const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
+const reduce = reduceMQ.matches;
+if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', () => location.reload());
+const coarse = matchMedia('(pointer: coarse)').matches;
+
+const title  = document.getElementById('title');
+const sub    = document.getElementById('sub');
+const canvas = document.getElementById('gl');
+
+/* split the word into letters for per-letter physics; DOM text stays selectable */
+const word = title.textContent.trim();
+title.setAttribute('aria-label', word);
+title.textContent = '';
+const L = [...word].map((c, i) => {
+  const el = document.createElement('span');
+  el.className = 'ch'; el.textContent = c;
+  el.setAttribute('aria-hidden', 'true');
+  el.style.setProperty('--i', i);
+  title.appendChild(el);
+  return { el, ox: 0, oy: 0, w: 0, h: 0, x: 0, vx: 0, sy: 1, vsy: 0, sx: 1, vsx: 0, sk: 0, vsk: 0, e: 0, tf: '', fl: '' };
+});
+const probe = document.createElement('i');
+probe.className = 'bl'; probe.setAttribute('aria-hidden', 'true');
+title.appendChild(probe);
+
+let VW = innerWidth, VH = innerHeight, M = Math.min(VW, VH);
+let fs = 120, TW = 0, TH = 0;
+
+function measure() {
+  VW = innerWidth; VH = innerHeight; M = Math.min(VW, VH);
+  fs = parseFloat(getComputedStyle(title).fontSize) || 120;
+  TW = title.offsetWidth; TH = title.offsetHeight;
+  title.style.setProperty('--W', TW + 'px');
+  title.style.setProperty('--H', TH + 'px');
+  const base = probe.offsetTop;
+  for (const l of L) {
+    l.ox = l.el.offsetLeft; l.oy = l.el.offsetTop; l.w = l.el.offsetWidth; l.h = l.el.offsetHeight;
+    l.el.style.setProperty('--ox', l.ox + 'px');
+    l.el.style.setProperty('--oy', l.oy + 'px');
+    l.el.style.transformOrigin = '50% ' + (base - l.oy) + 'px';   // scale from the baseline: it never moves
+  }
+}
+
+/* ── WebGL2 ── */
+let gl = null, U = {}, lost = false, quality = coarse ? 0.85 : 1, cw = 0, chh = 0;
+function initGL() {
+  try {
+    gl = canvas.getContext('webgl2', { antialias: false, alpha: false, depth: false, stencil: false, powerPreference: 'high-performance' });
+  } catch (e) { gl = null; }
+  if (!gl) return false;
+  const compile = (type, src) => {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; }
+    return s;
+  };
+  const vs = compile(gl.VERTEX_SHADER, VS), fsh = compile(gl.FRAGMENT_SHADER, FS);
+  if (!vs || !fsh) return false;
+  const pr = gl.createProgram();
+  gl.attachShader(pr, vs); gl.attachShader(pr, fsh); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { console.warn(gl.getProgramInfoLog(pr)); return false; }
+  gl.useProgram(pr);
+  for (const n of ['uRes', 'uTime', 'uPtr', 'uVel', 'uInf', 'uRip', 'uReveal', 'uPar']) U[n] = gl.getUniformLocation(pr, n);
+  canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); lost = true; doc.classList.add('no-gl'); });
+  return true;
+}
+function resizeGL() {
+  const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 1.75) * quality;
+  cw = Math.max(2, Math.round(VW * dpr)); chh = Math.max(2, Math.round(VH * dpr));
+  if (canvas.width !== cw || canvas.height !== chh) { canvas.width = cw; canvas.height = chh; }
+  gl.viewport(0, 0, cw, chh);
+}
+const hasGL = initGL();
+if (!hasGL) doc.classList.add('no-gl');
+
+/* ── state ── */
+const mouse = { x: 0, y: 0, has: false, t: 0 };
+const ptr = { x: 0, y: 0, vx: 0, vy: 0 };
+const par = { x: 0, y: 0 };
+let inf = 0.4, hov = 0, hlx = 0, hly = 0, sxv = -200, sav = 0.14, hav = 0;
+const rip = [];
+const ripArr = new Float32Array(16);
+const T0 = performance.now();
+const TIME_OFFSET = 12;
+const nowT = () => (performance.now() - T0) / 1000 + TIME_OFFSET;
+
+function addRipple(cx, cy) {
+  if (reduce) return;
+  rip.push({ t0: nowT(), ux: (cx - VW / 2) / M, uy: -(cy - VH / 2) / M, cx, cy });
+  if (rip.length > 4) rip.shift();
+}
+
+/* ── input ── */
+addEventListener('pointermove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.has = true; mouse.t = performance.now(); }, { passive: true });
+addEventListener('pointerdown', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.has = true; mouse.t = performance.now(); addRipple(e.clientX, e.clientY); }, { passive: true });
+addEventListener('pointerup', e => {
+  if (e.pointerType === 'mouse') return;
+  const stamp = performance.now(); mouse.t = stamp;
+  setTimeout(() => { if (mouse.t === stamp) mouse.has = false; }, 900);
+}, { passive: true });
+addEventListener('pointercancel', () => { mouse.has = false; }, { passive: true });
+doc.addEventListener('mouseleave', () => { mouse.has = false; });
+addEventListener('blur', () => { mouse.has = false; });
+
+/* ── frame ── */
+let last = performance.now(), frameN = 0, ema = 1 / 60, qCount = 0;
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  const raw = (now - last) / 1000;
+  const dt = Math.min(raw, 1 / 30);
+  last = now;
+  frameN++;
+  const t = (now - T0) / 1000 + TIME_OFFSET;
+
+  /* gravity centre: real pointer, or a slow virtual one while idle */
+  let tx, ty, tInf;
+  if (mouse.has) {
+    tx = (mouse.x - VW / 2) / M; ty = -(mouse.y - VH / 2) / M; tInf = 0.72;
+  } else {
+    tx = Math.sin(t * 0.19) * Math.min(0.5, (VW / M) * 0.26);
+    ty = Math.sin(t * 0.14 + 1.2) * Math.min(0.4, (VH / M) * 0.2);
+    tInf = 0.42;
+  }
+  const ex = clamp(tx - ptr.x, -0.9, 0.9), ey = clamp(ty - ptr.y, -0.9, 0.9);
+  const k = 24, c = 8.6;                                    // underdamped spring: settles with believable inertia
+  ptr.vx += (ex * k - ptr.vx * c) * dt;  ptr.vy += (ey * k - ptr.vy * c) * dt;
+  ptr.x += ptr.vx * dt;                  ptr.y += ptr.vy * dt;
+  const speed = Math.hypot(ptr.vx, ptr.vy);
+  const infTarget = tInf + (mouse.has ? clamp(speed * 0.14, 0, 0.28) : 0);
+  inf = damp(inf, infTarget, infTarget > inf ? 5 : 0.8, dt);  // quick to grab, slow to let go
+
+  /* restrained parallax */
+  const pxn = mouse.has ? (mouse.x / VW - 0.5) * 2 : clamp(ptr.x / Math.max(0.3, VW / M / 2), -1, 1) * 0.5;
+  const pyn = mouse.has ? (mouse.y / VH - 0.5) * 2 : clamp(-ptr.y / Math.max(0.3, VH / M / 2), -1, 1) * 0.5;
+  par.x = damp(par.x, pxn, 2.6, dt); par.y = damp(par.y, pyn, 2.6, dt);
+  title.style.translate = (par.x * 9).toFixed(2) + 'px ' + (par.y * 6).toFixed(2) + 'px';
+  sub.style.translate   = (par.x * 4.5).toFixed(2) + 'px ' + (par.y * 3).toFixed(2) + 'px';
+
+  /* typography */
+  const tr = title.getBoundingClientRect();
+  const pad = fs * 0.35;
+  const over = mouse.has && mouse.x > tr.left - pad && mouse.x < tr.right + pad && mouse.y > tr.top - pad && mouse.y < tr.bottom + pad;
+  hov = damp(hov, over ? 1 : 0, over ? 9 : 3.2, dt);
+
+  for (let i = rip.length - 1; i >= 0; i--) if (t - rip[i].t0 > 6) rip.splice(i, 1);
+
+  const sigma = fs * 0.5;
+  const K = 150, C = 17;
+  for (const l of L) {
+    const lx = tr.left + l.ox + l.w / 2, ly = tr.top + l.oy + l.h * 0.5;
+    const dx = mouse.x - lx, dy = mouse.y - ly;
+    const f = hov * Math.exp(-(dx * dx + dy * dy) / (2 * sigma * sigma));
+    const nx = clamp(dx / sigma, -1.5, 1.5);
+    const tX = nx * fs * 0.02 * f, tSY = 1 + 0.075 * f, tSX = 1 - 0.035 * f, tSK = -nx * 3.2 * f;
+    l.vx  += ((tX  - l.x)  * K - l.vx  * C) * dt; l.x  += l.vx  * dt;
+    l.vsy += ((tSY - l.sy) * K - l.vsy * C) * dt; l.sy += l.vsy * dt;
+    l.vsx += ((tSX - l.sx) * K - l.vsx * C) * dt; l.sx += l.vsx * dt;
+    l.vsk += ((tSK - l.sk) * K - l.vsk * C) * dt; l.sk += l.vsk * dt;
+    const rest = Math.abs(l.x) < 0.01 && Math.abs(l.sy - 1) < 0.0004 && Math.abs(l.sx - 1) < 0.0004 && Math.abs(l.sk) < 0.01 &&
+                 Math.abs(l.vx) < 0.01 && Math.abs(l.vsy) < 0.01 && Math.abs(l.vsk) < 0.05;
+    const tf = rest ? '' : 'translate3d(' + l.x.toFixed(2) + 'px,0,0) skewX(' + l.sk.toFixed(2) + 'deg) scale(' + l.sx.toFixed(4) + ',' + l.sy.toFixed(4) + ')';
+    if (tf !== l.tf) { l.el.style.transform = tf; l.tf = tf; }
+
+    /* ripple → edge light on the letters, same wavefront as the shader */
+    let eT = 0;
+    for (const r of rip) {
+      const age = t - r.t0;
+      const x = (Math.hypot(lx - r.cx, ly - r.cy) - age * 0.55 * M) / (0.07 * M * 1.15);
+      eT = Math.max(eT, Math.exp(-x * x) * Math.exp(-age * 0.8));
+    }
+    l.e = damp(l.e, eT, 18, dt);
+    const ev = l.e < 0.01 ? 0 : l.e;
+    if (ev === 0 && l.fl === '') { /* nothing */ } else {
+      l.el.style.setProperty('--e', ev.toFixed(3));
+      const fl = ev > 0 ? 'drop-shadow(0 0 ' + (ev * 12).toFixed(1) + 'px rgba(120,170,255,' + (ev * 0.55).toFixed(3) + '))' : '';
+      if (fl !== l.fl) { l.el.style.filter = fl; l.fl = fl; }
+    }
+  }
+
+  /* metallic highlight follows the pointer, otherwise a faint slow sweep */
+  if (over || hov > 0.01 || (frameN & 1) === 0) {
+    const hxT = clamp(mouse.x - tr.left, -TW * 0.2, TW * 1.2), hyT = clamp(mouse.y - tr.top, 0, TH);
+    hlx = damp(hlx, hxT, 11, dt); hly = damp(hly, hyT, 11, dt);
+    const sweep = (((t * 0.085) % 1.7) - 0.35) * TW;
+    const sxT = over ? hlx : sweep;
+    sxv = (sxT - sxv) > TW * 0.5 || (sxv - sxT) > TW * 0.5 ? sxT : damp(sxv, sxT, over ? 12 : 30, dt);
+    sav = damp(sav, over ? 0.88 : 0.15, 4, dt);
+    hav = damp(hav, over ? 0.55 : 0, 4, dt);
+    title.style.setProperty('--sx', sxv.toFixed(1) + 'px');
+    title.style.setProperty('--sw', (fs * 0.5).toFixed(1) + 'px');
+    title.style.setProperty('--sa', sav.toFixed(3));
+    title.style.setProperty('--hx', hlx.toFixed(1) + 'px');
+    title.style.setProperty('--hy', hly.toFixed(1) + 'px');
+    title.style.setProperty('--ha', hav.toFixed(3));
+    title.style.setProperty('--hr', (fs * 0.6).toFixed(1) + 'px');
+  }
+
+  /* subtitle: brightness + tracking */
+  const sr = sub.getBoundingClientRect();
+  const sOver = mouse.has && mouse.x > sr.left && mouse.x < sr.right && mouse.y > sr.top && mouse.y < sr.bottom;
+  if (sOver !== sub.classList.contains('hot')) sub.classList.toggle('hot', sOver);
+
+  /* background */
+  if (hasGL && !lost) {
+    for (let i = 0; i < 4; i++) {
+      const r = rip[i];
+      ripArr[i * 4] = r ? r.ux : 0; ripArr[i * 4 + 1] = r ? r.uy : 0;
+      ripArr[i * 4 + 2] = r ? r.t0 : 0; ripArr[i * 4 + 3] = r ? 1 : 0;
+    }
+    const sp = Math.hypot(ptr.vx, ptr.vy), sc = sp > 2.5 ? 2.5 / sp : 1;
+    const reveal = 1 - Math.pow(1 - clamp((now - T0) / 2300, 0, 1), 3);
+    gl.uniform2f(U.uRes, cw, chh);
+    gl.uniform1f(U.uTime, t);
+    gl.uniform2f(U.uPtr, ptr.x, ptr.y);
+    gl.uniform2f(U.uVel, ptr.vx * sc, ptr.vy * sc);
+    gl.uniform1f(U.uInf, inf);
+    gl.uniform4fv(U.uRip, ripArr);
+    gl.uniform1f(U.uReveal, reveal);
+    gl.uniform2f(U.uPar, par.x, -par.y);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    /* adaptive resolution: keep it smooth on weaker GPUs */
+    ema = ema * 0.94 + Math.min(raw, 0.1) * 0.06;
+    if (++qCount > 80) {
+      qCount = 0;
+      if (ema > 0.026 && quality > 0.5) { quality *= 0.84; resizeGL(); }
+    }
+  }
+}
+
+/* ── reduced motion: one still, beautiful frame ── */
+function drawStill() {
+  if (!hasGL || lost) return;
+  resizeGL();
+  ripArr.fill(0);
+  gl.uniform2f(U.uRes, cw, chh); gl.uniform1f(U.uTime, 20);
+  gl.uniform2f(U.uPtr, 0.18, 0.05); gl.uniform2f(U.uVel, 0, 0);
+  gl.uniform1f(U.uInf, 0.45); gl.uniform4fv(U.uRip, ripArr);
+  gl.uniform1f(U.uReveal, 1); gl.uniform2f(U.uPar, 0, 0);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+
+function onResize() {
+  measure();
+  if (hasGL) resizeGL();
+  if (reduce) drawStill();
+}
+addEventListener('resize', onResize);
+if (window.ResizeObserver) new ResizeObserver(() => measure()).observe(title);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
+measure();
+if (hasGL) resizeGL();
+if (reduce) {
+  drawStill();
+  sub.addEventListener('pointerenter', () => sub.classList.add('hot'));
+  sub.addEventListener('pointerleave', () => sub.classList.remove('hot'));
+} else {
+  requestAnimationFrame(t => { last = t; frame(t); });
+}
+document.addEventListener('visibilitychange', () => { last = performance.now(); });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>augmenta</title>
+<meta name="description" content="human machine interface venture studio">
+<meta name="theme-color" content="#040508">
+<meta property="og:title" content="augmenta">
+<meta property="og:description" content="human machine interface venture studio">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='.4' cy='.35' r='.8'%3E%3Cstop offset='0' stop-color='%23e9efff'/%3E%3Cstop offset='.55' stop-color='%236f9cff'/%3E%3Cstop offset='1' stop-color='%23311a8c'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%23040508'/%3E%3Ccircle cx='32' cy='32' r='14' fill='url(%23g)'/%3E%3C/svg%3E">
+<style>
+  @font-face {
+    font-family: "Aug Display";
+    src: url(data:font/woff;base64,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) format("woff");
+    font-weight: 300; font-style: normal; font-display: block;
+  }
+  @font-face {
+    font-family: "Aug Text";
+    src: url(data:font/woff;base64,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) format("woff");
+    font-weight: 500; font-style: normal; font-display: block;
+  }
+
+  :root {
+    --bg: #040508;
+    --ice: 158, 197, 255;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; height: 100%; background: var(--bg); color: #eceff4;
+    overflow: hidden; overscroll-behavior: none; touch-action: none;
+    -webkit-text-size-adjust: 100%;
+  }
+  body { position: fixed; inset: 0; }
+  ::selection { background: rgba(var(--ice), .32); color: #fff; -webkit-text-fill-color: #fff; }
+
+  #gl { position: fixed; inset: 0; width: 100%; height: 100%; display: block; }
+
+  /* graceful fallback: no WebGL2 / context lost */
+  html.no-gl #gl { display: none; }
+  html.no-gl body {
+    background:
+      radial-gradient(60% 46% at 50% 56%, rgba(70, 110, 210, .20), transparent 72%),
+      radial-gradient(38% 34% at 72% 30%, rgba(124, 72, 232, .14), transparent 70%),
+      var(--bg);
+  }
+  html.no-gl body::before {
+    content: ""; position: fixed; inset: -12%;
+    background: repeating-linear-gradient(104deg, rgba(190, 210, 240, .075) 0 1px, transparent 1px 9px);
+    -webkit-mask-image: radial-gradient(ellipse at 50% 52%, #000 6%, transparent 68%);
+            mask-image: radial-gradient(ellipse at 50% 52%, #000 6%, transparent 68%);
+    animation: drift 46s ease-in-out infinite alternate;
+  }
+  html.no-gl body::after {
+    content: ""; position: fixed; inset: 0; pointer-events: none; opacity: .5; mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
+  }
+  @keyframes drift { to { transform: translate3d(3%, -2%, 0) rotate(1.2deg); } }
+
+  main {
+    position: fixed; inset: 0; z-index: 2;
+    display: grid; place-items: center;
+    padding: env(safe-area-inset-top) max(18px, env(safe-area-inset-right)) env(safe-area-inset-bottom) max(18px, env(safe-area-inset-left));
+    pointer-events: none;
+  }
+  .stage { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+  h1 {
+    position: relative; margin: 0; width: max-content; max-width: none;
+    font-family: "Aug Display", "Inter Display", "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 300;
+    font-size: min(19vw, 30vh);
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+    white-space: nowrap;
+    pointer-events: auto;
+    cursor: default;
+    --sx: -40%; --sa: .14; --sw: 90px;
+    --hx: 50%; --hy: 50%; --ha: 0; --hr: 140px;
+  }
+  @media (min-width: 560px) { h1 { font-size: min(15.5vw, 30vh); } }
+  @media (min-width: 900px) { h1 { font-size: min(13.5vw, 30vh); } }
+
+  .ch {
+    position: relative; display: inline-block;
+    padding-bottom: .08em;
+    color: transparent; -webkit-text-fill-color: transparent;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text; background-clip: text;
+    background-image:
+      /* moving metallic streak with darker reflective flanks */
+      linear-gradient(105deg,
+        rgba(70, 86, 116, 0) calc(var(--sx) - var(--sw)),
+        rgba(70, 86, 116, .34) calc(var(--sx) - var(--sw) * .55),
+        rgba(255, 255, 255, var(--sa)) var(--sx),
+        rgba(70, 86, 116, .34) calc(var(--sx) + var(--sw) * .55),
+        rgba(70, 86, 116, 0) calc(var(--sx) + var(--sw))),
+      /* pointer-local icy sheen */
+      radial-gradient(circle at var(--hx) var(--hy),
+        rgba(196, 224, 255, var(--ha)) 0,
+        rgba(196, 224, 255, 0) var(--hr)),
+      /* brushed off-white silver */
+      linear-gradient(180deg, #fbfcfe 0%, #e9edf3 36%, #b3bdcd 63%, #dfe5ee 100%);
+    background-size: var(--W, 100%) var(--H, 100%), var(--W, 100%) var(--H, 100%), 100% 100%;
+    background-position: calc(var(--ox, 0px) * -1) calc(var(--oy, 0px) * -1), calc(var(--ox, 0px) * -1) calc(var(--oy, 0px) * -1), 0 0;
+    -webkit-text-stroke: calc(var(--e, 0) * 1.3px) rgba(176, 212, 255, calc(var(--e, 0) * .95));
+    will-change: transform;
+    animation: rise 1.7s cubic-bezier(.16, 1, .3, 1) calc(.18s + var(--i, 0) * .07s) backwards;
+  }
+  .bl { display: inline-block; width: 0; height: 0; vertical-align: baseline; }
+
+  #sub {
+    margin: clamp(.9rem, 3.6vh, 2.4rem) 0 0;
+    padding: .7em 1.2em;
+    font-family: "Aug Text", "Inter", "Helvetica Neue", Arial, sans-serif;
+    font-weight: 500;
+    font-size: clamp(.74rem, .66rem + .5vw, 1.12rem);
+    line-height: 1.7;
+    letter-spacing: .24em;
+    text-indent: .24em;
+    color: rgba(214, 223, 238, .82);
+    text-wrap: balance;
+    animation: fadeUp 1.7s cubic-bezier(.16, 1, .3, 1) 1s backwards;
+  }
+  #sub span { white-space: nowrap; }
+  @media (min-width: 700px) { #sub { letter-spacing: .34em; text-indent: .34em; } }
+
+
+  @keyframes rise {
+    from { opacity: 0; filter: blur(18px); translate: 0 .16em; }
+    to   { opacity: 1; filter: blur(0);    translate: 0 0; }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; filter: blur(8px); translate: 0 .7em; }
+    to   { opacity: 1; filter: blur(0);   translate: 0 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ch, #sub { animation: none !important; }
+    html.no-gl body::before { animation: none; }
+  }
+</style>
+</head>
+<body>
+<canvas id="gl" aria-hidden="true"></canvas>
+<main>
+  <div class="stage">
+    <h1 id="title">augmenta</h1>
+    <p id="sub"><span>human machine interface</span> <span>venture studio</span></p>
+  </div>
+</main>
+
+<script>
+(() => {
+'use strict';
+
+/* ───────────────────────── shaders ───────────────────────── */
+const VS = `#version 300 es
+void main(){
+  vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2));
+  gl_Position = vec4(p * 2.0 - 1.0, 0.0, 1.0);
+}`;
+
+const FS = `#version 300 es
+precision highp float;
+uniform vec2  uRes;
+uniform float uTime;
+uniform float uReveal;
+out vec4 fragColor;
+
+float h21(vec2 p){
+  vec3 p3 = fract(vec3(p.xyx) * .1031);
+  p3 += dot(p3, p3.yzx + 33.33);
+  return fract((p3.x + p3.y) * p3.z);
+}
+float vnoise(vec2 p){
+  vec2 i = floor(p), f = fract(p);
+  f = f*f*f*(f*(f*6.0-15.0)+10.0);
+  float a = h21(i), b = h21(i+vec2(1,0)), c = h21(i+vec2(0,1)), d = h21(i+vec2(1,1));
+  return mix(mix(a,b,f.x), mix(c,d,f.x), f.y);
+}
+const mat2 R = mat2(1.6, 1.2, -1.2, 1.6);
+float fbm4(vec2 p){
+  float s = 0.0, a = 0.5;
+  for(int i=0;i<4;i++){ s += a*vnoise(p); p = R*p; a *= .5; }
+  return s * 1.07;
+}
+float fbm2(vec2 p){
+  return (0.62*vnoise(p) + 0.38*vnoise(R*p)) ;
+}
+
+void main(){
+  vec2  frag = gl_FragCoord.xy;
+  float m  = min(uRes.x, uRes.y);
+  vec2  p0 = (frag - 0.5*uRes) / m;
+  float t  = uTime;
+
+  vec2 q = p0;
+
+  /* ── slow organic flow ── */
+  float tt = t * 0.016;
+  vec2  fq = q * 0.8;
+  vec2  w1 = vec2(fbm4(fq + vec2(0.0, tt)), fbm4(fq + vec2(5.2, 1.3 - tt)));
+  vec2  qq = q + (w1 - 0.5) * 0.65;
+  float mem = fbm4(qq + vec2(tt * 1.6, 3.1));            // membrane height 0..1
+
+  /* ── strands: iso-lines of a warped scalar field ── */
+  float ang = 0.36 + 0.14 * sin(t * 0.012);
+  vec2  dir = vec2(cos(ang), sin(ang));
+  float F   = 40.0 * dot(qq, dir) + 7.5 * mem + 1.4 * fbm2(qq * 2.0 - vec2(0.0, t * 0.012)) - t * 0.07;
+
+  float fw    = fwidth(F);
+  float focus = smoothstep(0.22, 0.74, mem);              // high = near = crisp
+  float blur  = (1.0 - focus) * 0.11 + (1.0 - uReveal) * 0.45;
+  float th    = 0.085 + 0.05 * focus;
+  float u     = abs(fract(F + 0.5) - 0.5);
+  float aa    = fw * 0.9 + blur + 1e-4;
+  float body  = 1.0 - smoothstep(th - aa, th + aa, u);
+  body = mix(body, th * 2.0, smoothstep(0.3, 0.6, fw));
+
+  /* ── lighting ── */
+  float s   = sin(6.28318 * F);
+  vec2  gF  = vec2(dFdx(F), dFdy(F));
+  vec2  g   = gF / (length(gF) + 1e-5);
+  vec2  tilt = vec2(dFdx(mem), dFdy(mem)) * 110.0;
+  vec3  N   = normalize(vec3(g * s * 0.9 * (1.0 - clamp(blur * 3.0, 0.0, 0.9)) + tilt, 1.0));
+  vec3  V   = vec3(0.0, 0.0, 1.0);
+
+  vec3  L1  = normalize(vec3(-0.5 + 0.15*sin(t*0.1), 0.55, 0.65));
+  float d1  = max(dot(N, L1), 0.0);
+  float s1  = pow(max(dot(N, normalize(L1 + V)), 0.0), 36.0);
+
+  vec3  PL  = vec3(vec2(0.34 * sin(t * 0.045), 0.20 * cos(t * 0.037 + 1.0)) - p0, 0.2);
+  float pd  = length(PL); PL /= pd;
+  float att = 1.0 / (1.0 + pd*pd*5.0);
+  float d2  = max(dot(N, PL), 0.0) * att * 0.55;
+  float s2  = pow(max(dot(N, normalize(PL + V)), 0.0), 28.0) * att * 0.55;
+
+  vec3  L3  = normalize(vec3(0.65, -0.5, 0.5));
+  float s3  = pow(max(dot(N, normalize(L3 + V)), 0.0), 22.0);
+
+  /* ── palette: silver, icy blue, occasional electric violet ── */
+  vec3 silver = vec3(0.80, 0.85, 0.93);
+  vec3 ice    = vec3(0.38, 0.65, 1.00);
+  vec3 violet = vec3(0.58, 0.30, 1.00);
+  float tint  = fbm2(qq * 0.7 + vec2(2.0, 7.0) + t * 0.01);
+  vec3 base   = mix(silver, ice, smoothstep(0.36, 0.66, tint));
+  float vio   = smoothstep(0.62, 0.80, fbm2(qq * 0.55 + vec2(11.3, 4.1) - t * 0.015));
+
+  vec3 col = vec3(0.005, 0.008, 0.018);
+  col += vec3(0.020, 0.032, 0.070) * (0.35 + mem) * (1.0 - body);            // faint haze between strands
+
+  float depthGain = 0.20 + 0.62 * mem;
+  vec3  lit = base * (0.10 + 0.46 * d1 + 0.9 * d2) + vec3(0.95, 0.98, 1.0) * (0.55 * s1 + 0.9 * s2);
+  col += body * lit * depthGain;
+  col += body * violet * vio * (0.12 + 0.45 * s3 + 0.4 * d2);
+
+  /* ── composition: calm behind the type, vignette, reveal ── */
+  float e    = length(p0 / vec2(0.75, 0.2));
+  float tdim = mix(0.40, 1.0, smoothstep(0.7, 1.7, e));
+  float vig  = 1.0 - smoothstep(0.22, 1.35, length(p0 * vec2(0.85, 1.0)));
+  col *= tdim * vig;
+  col *= smoothstep(0.0, 1.0, uReveal * 1.8 - length(p0) * 0.9);
+
+  col = 1.0 - exp(-col * 1.5);
+  float gr = h21(frag + fract(t) * 173.0) - 0.5;
+  col += gr * 0.024 * (0.35 + dot(col, vec3(0.33)));
+  fragColor = vec4(clamp(col, 0.0, 1.0), 1.0);
+}`;
+
+/* ───────────────────────── setup ───────────────────────── */
+const doc    = document.documentElement;
+const clamp  = (v, a, b) => Math.min(b, Math.max(a, v));
+const damp   = (a, b, rate, dt) => a + (b - a) * (1 - Math.exp(-rate * dt));
+const reduceMQ = matchMedia('(prefers-reduced-motion: reduce)');
+const reduce = reduceMQ.matches;
+if (reduceMQ.addEventListener) reduceMQ.addEventListener('change', () => location.reload());
+const coarse = matchMedia('(pointer: coarse)').matches;
+
+const title  = document.getElementById('title');
+const sub    = document.getElementById('sub');
+const canvas = document.getElementById('gl');
+
+/* split the word into letters for per-letter physics; DOM text stays selectable */
+const word = title.textContent.trim();
+title.setAttribute('aria-label', word);
+title.textContent = '';
+const L = [...word].map((c, i) => {
+  const el = document.createElement('span');
+  el.className = 'ch'; el.textContent = c;
+  el.setAttribute('aria-hidden', 'true');
+  el.style.setProperty('--i', i);
+  title.appendChild(el);
+  return { el, ox: 0, oy: 0, w: 0, h: 0, x: 0, vx: 0, sy: 1, vsy: 0, sx: 1, vsx: 0, sk: 0, vsk: 0, e: 0, tf: '', fl: '' };
+});
+const probe = document.createElement('i');
+probe.className = 'bl'; probe.setAttribute('aria-hidden', 'true');
+title.appendChild(probe);
+
+let VW = innerWidth, VH = innerHeight, M = Math.min(VW, VH);
+let fs = 120, TW = 0, TH = 0;
+
+function measure() {
+  VW = innerWidth; VH = innerHeight; M = Math.min(VW, VH);
+  fs = parseFloat(getComputedStyle(title).fontSize) || 120;
+  TW = title.offsetWidth; TH = title.offsetHeight;
+  title.style.setProperty('--W', TW + 'px');
+  title.style.setProperty('--H', TH + 'px');
+  const base = probe.offsetTop;
+  for (const l of L) {
+    l.ox = l.el.offsetLeft; l.oy = l.el.offsetTop; l.w = l.el.offsetWidth; l.h = l.el.offsetHeight;
+    l.el.style.setProperty('--ox', l.ox + 'px');
+    l.el.style.setProperty('--oy', l.oy + 'px');
+    l.el.style.transformOrigin = '50% ' + (base - l.oy) + 'px';   // scale from the baseline: it never moves
+  }
+}
+
+/* ── WebGL2 ── */
+let gl = null, U = {}, lost = false, quality = coarse ? 0.85 : 1, cw = 0, chh = 0;
+function initGL() {
+  try {
+    gl = canvas.getContext('webgl2', { antialias: false, alpha: false, depth: false, stencil: false, powerPreference: 'high-performance' });
+  } catch (e) { gl = null; }
+  if (!gl) return false;
+  const compile = (type, src) => {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) { console.warn(gl.getShaderInfoLog(s)); return null; }
+    return s;
+  };
+  const vs = compile(gl.VERTEX_SHADER, VS), fsh = compile(gl.FRAGMENT_SHADER, FS);
+  if (!vs || !fsh) return false;
+  const pr = gl.createProgram();
+  gl.attachShader(pr, vs); gl.attachShader(pr, fsh); gl.linkProgram(pr);
+  if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { console.warn(gl.getProgramInfoLog(pr)); return false; }
+  gl.useProgram(pr);
+  for (const n of ['uRes', 'uTime', 'uReveal']) U[n] = gl.getUniformLocation(pr, n);
+  canvas.addEventListener('webglcontextlost', e => { e.preventDefault(); lost = true; doc.classList.add('no-gl'); });
+  return true;
+}
+function resizeGL() {
+  const dpr = Math.min(window.devicePixelRatio || 1, coarse ? 1.5 : 1.75) * quality;
+  cw = Math.max(2, Math.round(VW * dpr)); chh = Math.max(2, Math.round(VH * dpr));
+  if (canvas.width !== cw || canvas.height !== chh) { canvas.width = cw; canvas.height = chh; }
+  gl.viewport(0, 0, cw, chh);
+}
+const hasGL = initGL();
+if (!hasGL) doc.classList.add('no-gl');
+
+/* ── state ── */
+const mouse = { x: 0, y: 0, has: false, t: 0 };
+const par = { x: 0, y: 0 };
+let hov = 0, hlx = 0, hly = 0, sxv = -200, sav = 0.14, hav = 0;
+const T0 = performance.now();
+const TIME_OFFSET = 12;
+const nowT = () => (performance.now() - T0) / 1000 + TIME_OFFSET;
+
+/* ── input ── */
+addEventListener('pointermove', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.has = true; mouse.t = performance.now(); }, { passive: true });
+addEventListener('pointerdown', e => { mouse.x = e.clientX; mouse.y = e.clientY; mouse.has = true; mouse.t = performance.now(); }, { passive: true });
+addEventListener('pointerup', e => {
+  if (e.pointerType === 'mouse') return;
+  const stamp = performance.now(); mouse.t = stamp;
+  setTimeout(() => { if (mouse.t === stamp) mouse.has = false; }, 900);
+}, { passive: true });
+addEventListener('pointercancel', () => { mouse.has = false; }, { passive: true });
+doc.addEventListener('mouseleave', () => { mouse.has = false; });
+addEventListener('blur', () => { mouse.has = false; });
+
+/* ── frame ── */
+let last = performance.now(), frameN = 0, ema = 1 / 60, qCount = 0;
+
+function frame(now) {
+  requestAnimationFrame(frame);
+  const raw = (now - last) / 1000;
+  const dt = Math.min(raw, 1 / 30);
+  last = now;
+  frameN++;
+  const t = (now - T0) / 1000 + TIME_OFFSET;
+
+  /* restrained parallax */
+  const pxn = mouse.has ? (mouse.x / VW - 0.5) * 2 : 0;
+  const pyn = mouse.has ? (mouse.y / VH - 0.5) * 2 : 0;
+  par.x = damp(par.x, pxn, 2.6, dt); par.y = damp(par.y, pyn, 2.6, dt);
+  title.style.translate = (par.x * 9).toFixed(2) + 'px ' + (par.y * 6).toFixed(2) + 'px';
+  sub.style.translate   = (par.x * 4.5).toFixed(2) + 'px ' + (par.y * 3).toFixed(2) + 'px';
+
+  /* typography */
+  const tr = title.getBoundingClientRect();
+  const pad = fs * 0.35;
+  const over = mouse.has && mouse.x > tr.left - pad && mouse.x < tr.right + pad && mouse.y > tr.top - pad && mouse.y < tr.bottom + pad;
+  hov = damp(hov, over ? 1 : 0, over ? 9 : 3.2, dt);
+
+  const sigma = fs * 0.5;
+  const K = 150, C = 17;
+  for (const l of L) {
+    const lx = tr.left + l.ox + l.w / 2, ly = tr.top + l.oy + l.h * 0.5;
+    const dx = mouse.x - lx, dy = mouse.y - ly;
+    const f = hov * Math.exp(-(dx * dx + dy * dy) / (2 * sigma * sigma));
+    const nx = clamp(dx / sigma, -1.5, 1.5);
+    const tX = nx * fs * 0.02 * f, tSY = 1 + 0.075 * f, tSX = 1 - 0.035 * f, tSK = -nx * 3.2 * f;
+    l.vx  += ((tX  - l.x)  * K - l.vx  * C) * dt; l.x  += l.vx  * dt;
+    l.vsy += ((tSY - l.sy) * K - l.vsy * C) * dt; l.sy += l.vsy * dt;
+    l.vsx += ((tSX - l.sx) * K - l.vsx * C) * dt; l.sx += l.vsx * dt;
+    l.vsk += ((tSK - l.sk) * K - l.vsk * C) * dt; l.sk += l.vsk * dt;
+    const rest = Math.abs(l.x) < 0.01 && Math.abs(l.sy - 1) < 0.0004 && Math.abs(l.sx - 1) < 0.0004 && Math.abs(l.sk) < 0.01 &&
+                 Math.abs(l.vx) < 0.01 && Math.abs(l.vsy) < 0.01 && Math.abs(l.vsk) < 0.05;
+    const tf = rest ? '' : 'translate3d(' + l.x.toFixed(2) + 'px,0,0) skewX(' + l.sk.toFixed(2) + 'deg) scale(' + l.sx.toFixed(4) + ',' + l.sy.toFixed(4) + ')';
+    if (tf !== l.tf) { l.el.style.transform = tf; l.tf = tf; }
+  }
+
+  /* metallic highlight follows the pointer, otherwise a faint slow sweep */
+  if (over || hov > 0.01 || (frameN & 1) === 0) {
+    const hxT = clamp(mouse.x - tr.left, -TW * 0.2, TW * 1.2), hyT = clamp(mouse.y - tr.top, 0, TH);
+    hlx = damp(hlx, hxT, 11, dt); hly = damp(hly, hyT, 11, dt);
+    const sweep = (((t * 0.085) % 1.7) - 0.35) * TW;
+    const sxT = over ? hlx : sweep;
+    sxv = (sxT - sxv) > TW * 0.5 || (sxv - sxT) > TW * 0.5 ? sxT : damp(sxv, sxT, over ? 12 : 30, dt);
+    sav = damp(sav, over ? 0.88 : 0.15, 4, dt);
+    hav = damp(hav, over ? 0.55 : 0, 4, dt);
+    title.style.setProperty('--sx', sxv.toFixed(1) + 'px');
+    title.style.setProperty('--sw', (fs * 0.5).toFixed(1) + 'px');
+    title.style.setProperty('--sa', sav.toFixed(3));
+    title.style.setProperty('--hx', hlx.toFixed(1) + 'px');
+    title.style.setProperty('--hy', hly.toFixed(1) + 'px');
+    title.style.setProperty('--ha', hav.toFixed(3));
+    title.style.setProperty('--hr', (fs * 0.6).toFixed(1) + 'px');
+  }
+
+  /* background */
+  if (hasGL && !lost) {
+    const reveal = 1 - Math.pow(1 - clamp((now - T0) / 2300, 0, 1), 3);
+    gl.uniform2f(U.uRes, cw, chh);
+    gl.uniform1f(U.uTime, t);
+    gl.uniform1f(U.uReveal, reveal);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+    /* adaptive resolution: keep it smooth on weaker GPUs */
+    ema = ema * 0.94 + Math.min(raw, 0.1) * 0.06;
+    if (++qCount > 80) {
+      qCount = 0;
+      if (ema > 0.026 && quality > 0.5) { quality *= 0.84; resizeGL(); }
+    }
+  }
+}
+
+/* ── reduced motion: one still, beautiful frame ── */
+function drawStill() {
+  if (!hasGL || lost) return;
+  resizeGL();
+  gl.uniform2f(U.uRes, cw, chh); gl.uniform1f(U.uTime, 20);
+  gl.uniform1f(U.uReveal, 1);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+}
+
+function onResize() {
+  measure();
+  if (hasGL) resizeGL();
+  if (reduce) drawStill();
+}
+addEventListener('resize', onResize);
+if (window.ResizeObserver) new ResizeObserver(() => measure()).observe(title);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+
+measure();
+if (hasGL) resizeGL();
+if (reduce) {
+  drawStill();
+} else {
+  requestAnimationFrame(t => { last = t; frame(t); });
+}
+document.addEventListener('visibilitychange', () => { last = performance.now(); });
+})();
+</script>
+</body>
+</html>
